@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Warm noise texture -->
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feBlend in="SourceGraphic" mode="multiply" result="grain"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.08"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="soft-light"/>
+    </filter>
+
+    <!-- Soft glow for tree -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Radial warmth -->
+    <radialGradient id="warmth" cx="50%" cy="45%" r="55%" fx="50%" fy="40%">
+      <stop offset="0%" stop-color="#FDF9F3"/>
+      <stop offset="40%" stop-color="#FEFDFB"/>
+      <stop offset="100%" stop-color="#F0E8DD"/>
+    </radialGradient>
+
+    <!-- Tree trunk gradient -->
+    <linearGradient id="trunk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6B4D3A"/>
+      <stop offset="100%" stop-color="#4D3427"/>
+    </linearGradient>
+
+    <!-- Branch gradient -->
+    <linearGradient id="branch" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6B4D3A"/>
+      <stop offset="100%" stop-color="#8B6B56"/>
+    </linearGradient>
+
+    <!-- Leaf canopy gradients -->
+    <radialGradient id="canopy1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7DA67D" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#5C8A5C" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#4A7049" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="canopy2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#A3BFA3" stop-opacity="0.8"/>
+      <stop offset="60%" stop-color="#7DA67D" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#5C8A5C" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="canopy3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#5C8A5C" stop-opacity="0.85"/>
+      <stop offset="65%" stop-color="#4A7049" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#3D5A3D" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Node person circles -->
+    <linearGradient id="nodeStroke" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A3BFA3"/>
+      <stop offset="100%" stop-color="#7DA67D"/>
+    </linearGradient>
+
+    <!-- Decorative corner gradient -->
+    <linearGradient id="corner" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5C8A5C" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#5C8A5C" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Subtle line pattern -->
+    <pattern id="lines" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="40" y2="40" stroke="#4D3427" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#warmth)"/>
+  <rect width="1200" height="630" fill="url(#lines)"/>
+
+  <!-- Corner decorations -->
+  <path d="M0,0 L120,0 C50,10 10,50 0,120 Z" fill="url(#corner)"/>
+  <path d="M1200,630 L1080,630 C1150,620 1190,580 1200,510 Z" fill="url(#corner)"/>
+
+  <!-- Thin border inset -->
+  <rect x="24" y="24" width="1152" height="582" rx="2" fill="none" stroke="#4D3427" stroke-width="0.5" stroke-opacity="0.12"/>
+
+  <!-- ======= STYLIZED TREE (right side) ======= -->
+  <g transform="translate(820, 80)" filter="url(#glow)">
+
+    <!-- Canopy layers — overlapping organic circles -->
+    <ellipse cx="95" cy="100" rx="120" ry="95" fill="url(#canopy3)"/>
+    <ellipse cx="40" cy="130" rx="90" ry="75" fill="url(#canopy1)"/>
+    <ellipse cx="160" cy="120" rx="100" ry="80" fill="url(#canopy2)"/>
+    <ellipse cx="95" cy="60" rx="80" ry="65" fill="url(#canopy2)"/>
+    <ellipse cx="20" cy="80" rx="65" ry="55" fill="url(#canopy1)"/>
+    <ellipse cx="170" cy="70" rx="70" ry="55" fill="url(#canopy1)"/>
+    <ellipse cx="95" cy="150" rx="95" ry="60" fill="url(#canopy3)"/>
+
+    <!-- Trunk -->
+    <path d="M80,190 C78,240 72,320 68,410 C67,430 74,440 85,440 L105,440 C116,440 123,430 122,410 C118,320 112,240 110,190" fill="url(#trunk)" opacity="0.9"/>
+
+    <!-- Roots fanning out -->
+    <path d="M68,410 C55,430 30,455 15,460" stroke="#4D3427" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+    <path d="M72,420 C62,438 45,458 35,468" stroke="#4D3427" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+    <path d="M122,410 C135,430 160,455 175,460" stroke="#4D3427" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+    <path d="M118,420 C128,438 145,458 155,468" stroke="#4D3427" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+
+    <!-- Branches (visible through canopy) -->
+    <path d="M90,190 C75,160 40,140 15,120" stroke="#6B4D3A" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.45"/>
+    <path d="M95,200 C80,170 30,165 -10,150" stroke="#6B4D3A" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.35"/>
+    <path d="M100,190 C115,160 150,140 175,120" stroke="#6B4D3A" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.45"/>
+    <path d="M95,195 C110,165 160,160 195,145" stroke="#6B4D3A" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.35"/>
+    <path d="M95,185 C93,150 90,110 85,80" stroke="#6B4D3A" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+    <path d="M92,175 C78,140 55,95 30,70" stroke="#6B4D3A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.3"/>
+    <path d="M98,175 C112,140 135,95 160,70" stroke="#6B4D3A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.3"/>
+
+    <!-- Family node circles scattered in canopy -->
+    <!-- Generation 1 (top) -->
+    <circle cx="88" cy="62" r="14" fill="#FEFDFB" stroke="url(#nodeStroke)" stroke-width="2.5" opacity="0.92"/>
+    <circle cx="88" cy="58" r="4.5" fill="#C8D9C8"/>
+    <path d="M81,68 Q88,63 95,68" stroke="#C8D9C8" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- Generation 2 -->
+    <circle cx="38" cy="110" r="14" fill="#FEFDFB" stroke="url(#nodeStroke)" stroke-width="2.5" opacity="0.92"/>
+    <circle cx="38" cy="106" r="4.5" fill="#C8D9C8"/>
+    <path d="M31,116 Q38,111 45,116" stroke="#C8D9C8" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <circle cx="150" cy="105" r="14" fill="#FEFDFB" stroke="url(#nodeStroke)" stroke-width="2.5" opacity="0.92"/>
+    <circle cx="150" cy="101" r="4.5" fill="#C8D9C8"/>
+    <path d="M143,111 Q150,106 157,111" stroke="#C8D9C8" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- Generation 3 -->
+    <circle cx="-5" cy="150" r="12" fill="#FEFDFB" stroke="url(#nodeStroke)" stroke-width="2" opacity="0.88"/>
+    <circle cx="-5" cy="147" r="3.5" fill="#C8D9C8"/>
+    <path d="M-11,155 Q-5,151 1,155" stroke="#C8D9C8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+    <circle cx="70" cy="145" r="12" fill="#FEFDFB" stroke="url(#nodeStroke)" stroke-width="2" opacity="0.88"/>
+    <circle cx="70" cy="142" r="3.5" fill="#C8D9C8"/>
+    <path d="M64,150 Q70,146 76,150" stroke="#C8D9C8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+    <circle cx="125" cy="155" r="12" fill="#FEFDFB" stroke="url(#nodeStroke)" stroke-width="2" opacity="0.88"/>
+    <circle cx="125" cy="152" r="3.5" fill="#C8D9C8"/>
+    <path d="M119,160 Q125,156 131,160" stroke="#C8D9C8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+    <circle cx="190" cy="148" r="12" fill="#FEFDFB" stroke="url(#nodeStroke)" stroke-width="2" opacity="0.88"/>
+    <circle cx="190" cy="145" r="3.5" fill="#C8D9C8"/>
+    <path d="M184,153 Q190,149 196,153" stroke="#C8D9C8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+    <!-- Connection lines between nodes -->
+    <line x1="88" y1="76" x2="50" y2="98" stroke="#A3BFA3" stroke-width="1.5" opacity="0.5"/>
+    <line x1="88" y1="76" x2="140" y2="93" stroke="#A3BFA3" stroke-width="1.5" opacity="0.5"/>
+    <line x1="38" y1="124" x2="5" y2="140" stroke="#A3BFA3" stroke-width="1.2" opacity="0.4"/>
+    <line x1="38" y1="124" x2="62" y2="135" stroke="#A3BFA3" stroke-width="1.2" opacity="0.4"/>
+    <line x1="150" y1="119" x2="130" y2="145" stroke="#A3BFA3" stroke-width="1.2" opacity="0.4"/>
+    <line x1="150" y1="119" x2="182" y2="138" stroke="#A3BFA3" stroke-width="1.2" opacity="0.4"/>
+  </g>
+
+  <!-- ======= TYPOGRAPHY (left side) ======= -->
+
+  <!-- Small top label -->
+  <text x="72" y="215" font-family="Georgia, 'Times New Roman', serif" font-size="11" letter-spacing="4" fill="#5C8A5C" text-transform="uppercase" opacity="0.8">INTRODUCING</text>
+
+  <!-- Main title -->
+  <text x="68" y="290" font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="700" fill="#4D3427" letter-spacing="-1">Family Tree</text>
+  <text x="68" y="365" font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="700" fill="#4D3427" letter-spacing="-1">Maker</text>
+
+  <!-- Decorative line -->
+  <line x1="72" y1="390" x2="220" y2="390" stroke="#5C8A5C" stroke-width="2" opacity="0.5"/>
+
+  <!-- Tagline -->
+  <text x="72" y="428" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#6B4D3A" font-style="italic" opacity="0.75">Preserve your family's story</text>
+
+  <!-- Subtle feature pills -->
+  <g transform="translate(72, 460)">
+    <rect x="0" y="0" width="100" height="28" rx="14" fill="#5C8A5C" fill-opacity="0.1" stroke="#5C8A5C" stroke-width="0.7" stroke-opacity="0.25"/>
+    <text x="50" y="18" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" fill="#5C8A5C" text-anchor="middle" letter-spacing="0.5">Visual Editor</text>
+
+    <rect x="112" y="0" width="100" height="28" rx="14" fill="#5C8A5C" fill-opacity="0.1" stroke="#5C8A5C" stroke-width="0.7" stroke-opacity="0.25"/>
+    <text x="162" y="18" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" fill="#5C8A5C" text-anchor="middle" letter-spacing="0.5">Collaborate</text>
+
+    <rect x="224" y="0" width="80" height="28" rx="14" fill="#5C8A5C" fill-opacity="0.1" stroke="#5C8A5C" stroke-width="0.7" stroke-opacity="0.25"/>
+    <text x="264" y="18" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" fill="#5C8A5C" text-anchor="middle" letter-spacing="0.5">Share</text>
+
+    <rect x="316" y="0" width="98" height="28" rx="14" fill="#5C8A5C" fill-opacity="0.1" stroke="#5C8A5C" stroke-width="0.7" stroke-opacity="0.25"/>
+    <text x="365" y="18" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" fill="#5C8A5C" text-anchor="middle" letter-spacing="0.5">GEDCOM</text>
+  </g>
+
+  <!-- Grain overlay for warmth -->
+  <rect width="1200" height="630" filter="url(#grain)" opacity="0.4"/>
+</svg>

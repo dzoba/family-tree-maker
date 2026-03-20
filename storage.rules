@@ -1,0 +1,16 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /trees/{treeId}/people/{personId}/{fileName} {
+      // Read: only authenticated users can read photos.
+      // Shared tree viewers access photos via the signed download URL
+      // (getDownloadURL generates a token-bearing URL that bypasses rules).
+      allow read: if request.auth != null;
+
+      // Write: authenticated, image only, max 5MB, path must be under a tree
+      allow write: if request.auth != null
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

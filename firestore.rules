@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(treeId) {
+      return request.auth != null &&
+        get(/databases/$(database)/documents/trees/$(treeId)).data.ownerId == request.auth.uid;
+    }
+
+    function isCollaborator(treeId) {
+      return request.auth != null &&
+        request.auth.uid in get(/databases/$(database)/documents/trees/$(treeId)).data.collaboratorIds;
+    }
+
+    function isShared(treeId) {
+      let tree = get(/databases/$(database)/documents/trees/$(treeId)).data;
+      return tree.shareId != null && tree.shareId is string && tree.shareId.size() > 10;
+    }
+
+    match /trees/{treeId} {
+      // Read: owner, collaborator, or anyone if tree has a valid shareId
+      allow read: if (request.auth != null &&
+        (resource.data.ownerId == request.auth.uid ||
+         request.auth.uid in resource.data.collaboratorIds))
+        || (resource.data.shareId != null
+            && resource.data.shareId is string
+            && resource.data.shareId.size() > 10);
+
+      // Create: authenticated, must set ownerId to self, must have required fields
+      allow create: if request.auth != null
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.collaboratorIds is list;
+
+      // Update: owner can change anything; collaborators can update but NOT
+      // change ownerId, collaboratorIds, or shareId (prevents privilege escalation)
+      allow update: if request.auth != null &&
+        (resource.data.ownerId == request.auth.uid
+         || (request.auth.uid in resource.data.collaboratorIds
+             && request.resource.data.ownerId == resource.data.ownerId
+             && request.resource.data.collaboratorIds == resource.data.collaboratorIds
+             && request.resource.data.shareId == resource.data.shareId));
+
+      // Delete: owner only
+      allow delete: if request.auth != null &&
+        resource.data.ownerId == request.auth.uid;
+
+      // People subcollection
+      match /people/{personId} {
+        allow read: if request.auth != null &&
+          (isOwner(treeId) || isCollaborator(treeId))
+          || isShared(treeId);
+
+        allow write: if request.auth != null &&
+          (isOwner(treeId) || isCollaborator(treeId));
+      }
+
+      // Activity subcollection — only owner/collaborator can read and write
+      // Shared viewers do NOT get activity log access (contains user PII)
+      match /activity/{activityId} {
+        allow read, write: if request.auth != null &&
+          (isOwner(treeId) || isCollaborator(treeId));
+      }
+    }
+  }
+}
