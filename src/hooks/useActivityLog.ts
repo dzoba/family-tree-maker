@@ -35,13 +35,19 @@ export function useActivityLog(treeId: string | undefined) {
       limit(50)
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const entries = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as ActivityEntry[];
-      setActivities(entries);
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const entries = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as ActivityEntry[];
+        setActivities(entries);
+      },
+      (error) => {
+        console.error('Error listening to activity log:', error);
+      }
+    );
 
     return unsubscribe;
   }, [treeId]);

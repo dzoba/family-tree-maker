@@ -31,14 +31,21 @@ export function useUserTrees(userId: string | undefined) {
       where('ownerId', '==', userId)
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const treesData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as FamilyTree[];
-      setTrees(treesData);
-      setLoading(false);
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const treesData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as FamilyTree[];
+        setTrees(treesData);
+        setLoading(false);
+      },
+      (error) => {
+        console.error('Error listening to user trees:', error);
+        setLoading(false);
+      }
+    );
 
     return unsubscribe;
   }, [userId]);
@@ -97,6 +104,10 @@ export function useTreeData(treeId: string | undefined) {
           setTree(null);
         }
         setLoading(false);
+      },
+      (error) => {
+        console.error('Error listening to tree:', error);
+        setLoading(false);
       }
     );
 
@@ -108,6 +119,9 @@ export function useTreeData(treeId: string | undefined) {
           ...doc.data(),
         })) as Person[];
         setPeople(peopleData);
+      },
+      (error) => {
+        console.error('Error listening to people:', error);
       }
     );
 
