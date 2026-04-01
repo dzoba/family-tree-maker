@@ -21,6 +21,6 @@ jobs:
 
       - run: cd functions && npm ci
 
-      - run: npx firebase-tools deploy --project family-tree-maker-2e1f5
+      - run: npx firebase-tools deploy --force --project family-tree-maker-2e1f5
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
