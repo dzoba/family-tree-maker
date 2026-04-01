@@ -15,9 +15,15 @@ function usePeopleCounts(treeIds: string[]) {
     if (treeIds.length === 0) return;
 
     const unsubscribes = treeIds.map((treeId) =>
-      onSnapshot(collection(db, 'trees', treeId, 'people'), (snap) => {
-        setCounts((prev) => ({ ...prev, [treeId]: snap.size }));
-      })
+      onSnapshot(
+        collection(db, 'trees', treeId, 'people'),
+        (snap) => {
+          setCounts((prev) => ({ ...prev, [treeId]: snap.size }));
+        },
+        (error) => {
+          console.error(`Error listening to people for tree ${treeId}:`, error);
+        }
+      )
     );
 
     return () => unsubscribes.forEach((u) => u());
